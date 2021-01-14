@@ -132,6 +132,7 @@ ROOTFS=${STORAGE}:${DISK_REF-}${DISK}
 msg "Creating LXC container..."
 DISK_SIZE=6G
 RAM_SIZE=4096
+SWAP_SIZE=1024
 pvesm alloc $STORAGE $CTID $DISK $DISK_SIZE --format ${DISK_FORMAT:-raw} >/dev/null
 if [ "$STORAGE_TYPE" == "zfspool" ]; then
   warn "Some containers may not work properly due to ZFS not supporting 'fallocate'."
@@ -143,7 +144,8 @@ HOSTNAME=homeassistant
 TEMPLATE_STRING="local:vztmpl/${TEMPLATE}"
 pct create $CTID $TEMPLATE_STRING -arch $ARCH -features nesting=1 \
   -hostname $HOSTNAME -net0 name=eth0,bridge=vmbr0,ip=dhcp -onboot 1 \
-  -ostype $OSTYPE -rootfs $ROOTFS,size=$DISK_SIZE -memory $RAM_SIZE -storage $STORAGE >/dev/null
+  -ostype $OSTYPE -rootfs $ROOTFS,size=$DISK_SIZE -memory $RAM_SIZE -SWAP $SWAP_SIZU \
+  -storage $STORAGE >/dev/null
 
 # Modify LXC permissions to support Docker
 LXC_CONFIG=/etc/pve/lxc/${CTID}.conf
