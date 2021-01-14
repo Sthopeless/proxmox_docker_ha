@@ -87,7 +87,7 @@ docker run -d \
   -p 8443:8443 \
   --label com.centurylinklabs.watchtower.enable=true \
   -v /docker/vscode:/config \
-  -v /docker:/config/workspace/Home-Assistant
+  -v /docker:/config/workspace/Home-Assistant \
   --restart unless-stopped \
   ghcr.io/linuxserver/code-server &>/dev/null
 
