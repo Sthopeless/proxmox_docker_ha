@@ -130,7 +130,7 @@ ROOTFS=${STORAGE}:${DISK_REF-}${DISK}
 
 # Create LXC
 msg "Creating LXC container..."
-DISK_SIZE=4G
+DISK_SIZE=6G
 pvesm alloc $STORAGE $CTID $DISK $DISK_SIZE --format ${DISK_FORMAT:-raw} >/dev/null
 if [ "$STORAGE_TYPE" == "zfspool" ]; then
   warn "Some containers may not work properly due to ZFS not supporting 'fallocate'."
@@ -154,7 +154,12 @@ EOF
 # Set container description
 pct set $CTID -description "Access Portainer interface using the following URL.
 
-http://<IP_ADDRESS>:9000"
+http://<IP_ADDRESS>:9000
+
+Access Home Assistant at:
+http://<IP_ADDRESS>:8123
+
+"
 
 # Set container timezone to match host
 MOUNT=$(pct mount $CTID | cut -d"'" -f 2)
