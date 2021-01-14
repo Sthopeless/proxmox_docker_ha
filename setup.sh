@@ -56,8 +56,8 @@ sh <(curl -sSL https://get.docker.com) &>/dev/null
 
 # Install Portainer
 msg "Installing Portainer..."
-mkdir -p /docker/{portainer,vscode}
-# docker volume create portainer_data >/dev/null
+DOCKER_PORTAINER_PATH='/docker/portainer'
+mkdir -p $(dirname $DOCKER_PORTAINER_PATH)
 docker run -d \
   -p 8000:8000 \
   -p 9000:9000 \
@@ -79,6 +79,8 @@ docker run -d \
 
 # Instal VSCode
 msg "Installing VSCode..."
+DOCKER_VSCODE_PATH='/docker/vscode'
+mkdir -p $(dirname $DOCKER_VSCODE_PATH)
 docker run -d \
   --name=vscode \
   -e TZ=Europe/Amsterdam \
@@ -91,7 +93,8 @@ docker run -d \
 
 # Install Home Assistant
 msg "Installing Home Assistant"
-mkdir -p /docker/ha/
+DOCKER_HA_PATH='/docker/ha'
+mkdir -p $(dirname $DOCKER_HA_PATH)
 docker run -d \
   --name="home-assistant" \
   -v /docker/ha:/config \
